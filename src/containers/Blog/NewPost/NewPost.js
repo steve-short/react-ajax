@@ -26,9 +26,10 @@ class NewPost extends Component {
     };
 
     render () {
+        //I added the CSS class InheritedCssClass to Posts.css to show that it is global once imported
         return (
             <div className="NewPost">
-                <h1>Add a Post</h1>
+                <h1 className="InheritedCssClass">Add a Post</h1>
                 <label>Title</label>
                 <input type="text" value={this.state.title} onChange={(event) => this.setState({title: event.target.value})} />
                 <label>Content</label>
