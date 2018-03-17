@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 // import axios from 'axios';
 // import axios from '../../axios'; //load the axios.js that we created our instance in
 import Posts from './Posts/Posts';
-import FullPost from './FullPost/FullPost';
+// import FullPost from './FullPost/FullPost';
 import NewPost from './NewPost/NewPost';
 import './Blog.css';
-import {Route, NavLink, Switch} from 'react-router-dom';
+import {Route, NavLink, Switch, Redirect} from 'react-router-dom';
 
 class Blog extends Component {
+    state = {
+        auth: true
+    };
 
     render () {
         return (
@@ -18,7 +21,7 @@ class Blog extends Component {
                             {/*<li><Link to="/">Home</Link></li>*/}
                             <li>
                                 <NavLink
-                                    to="/"
+                                    to="/posts/"
                                     exact
                                     activeClassName="my-active"
                                     activeStyle={{
@@ -40,10 +43,13 @@ class Blog extends Component {
                 {/*<Route path="/" exact render={() => <Posts/>}/>*/}
                 {/*<Route path="/new-post" exact render={() => <NewPost/>}/>*/}
                 {/*Routes are processed in order. Without the Switch it could process more than one route. Switch processes first route that matches*/}
+                {/* the path "/" will match "/", "/1", etc. Anything that begins with a slash*/}
                 <Switch>
-                    <Route path="/" exact component={Posts}/>
-                    <Route path="/new-post" component={NewPost}/>
-                    <Route path="/:id" exact component={FullPost}/>
+                    {this.state.auth ? <Route path="/new-post" component={NewPost}/> : null}
+                    <Route path="/posts" component={Posts}/>
+                    {/*<Route path="/" component={Posts}/>*/}
+                    <Redirect exact from="/" to="/posts"/>
+                    <Route render={() => <h1>Page Not Found</h1>}/>
                 </Switch>
             </div>
         );
